@@ -1,0 +1,39 @@
+.bgr-red {
+    background-color: #FB6C6C;
+}
+
+.bgr-yellow {
+    background-color: #faea6f;
+}
+
+.bgr-purple {
+    background-color: rgb(192, 81, 192);
+}
+
+.bgr-blue {
+    background-color: rgb(50, 179, 226);
+}
+
+.bgr-green {
+    background-color: rgb(86, 193, 130);
+}
+
+.bgr-brown {
+    background-color: rgb(146, 75, 75);
+}
+
+.bgr-pink {
+    background-color: rgb(241, 205, 211);
+}
+
+.bgr-gray {
+    background-color: #daac4b;
+}
+
+.bgr-black {
+    background-color: rgb(49, 46, 46);
+}
+
+.bgr-white {
+    background-color: rgb(223, 199, 67) !important;
+}
