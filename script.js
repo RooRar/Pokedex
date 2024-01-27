@@ -4,9 +4,9 @@ let allPokemons = [];
 let loadedPokemonIds = [];
 
 function init() {
- resetOverview();
- loadAllPokemons();
- loadPokemonOverviewCards();
+  resetOverview();
+  loadAllPokemons();
+  loadPokemonOverviewCards();
 }
 
 async function loadAllPokemons() {
@@ -22,17 +22,21 @@ function resetOverview() {
   loadingEndId = 50;
 }
 
-function searchCards() {
+async function searchCards() {
   let input = (document.getElementById('search').value.toLowerCase() + '').replaceAll(' ', '');
-   resetOverview();
-   document.getElementById(`loadMoreCardsContainer`).classList.add(`displayNone`);
+  resetOverview();
+  document.getElementById(`loadMoreCardsContainer`).classList.add(`displayNone`);
   if (input) {
     loadedPokemonIds = [];
     for (let s = 1; s < allPokemons.length; s++) {
-          if ((allPokemons[s]['name']).startsWith(input)) {
-              loadPokemonOverviewCard(allPokemons[s]['url']);
-          }
+      if ((allPokemons[s]['name']).startsWith(input)) {
+        await loadPokemonOverviewCard(allPokemons[s]['url']);
       }
+    }
+    if (loadedPokemonIds.length < 1) {
+      if (document.getElementById(`NoPokemonFoundContainer`).classList.contains(`displayNone`) )
+        document.getElementById(`NoPokemonFoundContainer`).classList.remove(`displayNone`)
+    };
   }
   else {
     resetSearch();
@@ -40,11 +44,11 @@ function searchCards() {
 }
 
 
-function resetSearch() {
+async function resetSearch() {
   loadedPokemonIds = [];
   document.getElementById('search').value = '';
   resetOverview();
-  loadPokemonOverviewCards();
+  await loadPokemonOverviewCards();
   document.getElementById(`loadMoreCardsContainer`).classList.remove(`displayNone`);
 }
 
@@ -57,16 +61,19 @@ function loadMorePokemonCards() {
 
 
 async function loadPokemonOverviewCards() {
-    if (loadingEndId > allPokemons['count']) {
-      loadingEndId = allPokemons['count'];
-    }
-    for (id = loadingStartId; id < loadingEndId; id++) {
-      await loadPokemonOverviewCard(`https://pokeapi.co/api/v2/pokemon/${id}`);
-    }
+  if (loadingEndId > allPokemons['count']) {
+    loadingEndId = allPokemons['count'];
+  }
+  for (id = loadingStartId; id < loadingEndId; id++) {
+    await loadPokemonOverviewCard(`https://pokeapi.co/api/v2/pokemon/${id}`);
+  }
 }
 
 
 async function loadPokemonOverviewCard(url) {
+  if (!document.getElementById(`NoPokemonFoundContainer`).classList.contains(`displayNone`) )
+    document.getElementById(`NoPokemonFoundContainer`).classList.add(`displayNone`);
+  
   let response = await fetch(url);
   let currentPokemon = await response.json();
   loadedPokemonIds.push(currentPokemon['id']);

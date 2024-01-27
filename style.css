@@ -290,6 +290,16 @@ body {
     overflow: hidden;
 }
 
+#NoPokemonFoundContainer {
+    margin-top: 50px;
+
+    span {
+        font-size: 25px;
+        font-weight: 700;
+    }
+
+}
+
 @media(max-width: 500px) {
     .header {
         flex-direction: column;
