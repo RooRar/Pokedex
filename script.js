@@ -3,14 +3,14 @@ let loadingEndId;
 let allPokemons = [];
 let loadedPokemonIds = [];
 
-function init() {
+async function init() {
   resetOverview();
-  loadAllPokemons();
-  loadPokemonOverviewCards();
+  await loadAllPokemons();
+  await loadPokemonOverviewCards();
 }
 
 async function loadAllPokemons() {
-  let url = `https://pokeapi.co/api/v2/pokemon?limit=10000`;
+  let url = `https://pokeapi.co/api/v2/pokemon?limit=1000`;
   let response = await fetch(url);
   let responseJson = await response.json();
   allPokemons = await responseJson['results'];
@@ -36,6 +36,7 @@ async function searchCards() {
     if (loadedPokemonIds.length < 1) {
       if (document.getElementById(`NoPokemonFoundContainer`).classList.contains(`displayNone`) )
         document.getElementById(`NoPokemonFoundContainer`).classList.remove(`displayNone`)
+      document.getElementById('searchName').innerHTML = input;
     };
   }
   else {
@@ -77,9 +78,9 @@ async function loadPokemonOverviewCard(url) {
   let response = await fetch(url);
   let currentPokemon = await response.json();
   loadedPokemonIds.push(currentPokemon['id']);
-  let image = await currentPokemon['sprites']['other']['dream_world']['front_default'];
+  let image = currentPokemon['sprites']['other']['dream_world']['front_default'];
   if (!image) {
-    image = await currentPokemon['sprites']['other']['official-artwork']['front_default'];    
+    image = currentPokemon['sprites']['other']['official-artwork']['front_default'];    
   }
   document.getElementById('allPokemons').innerHTML += generatePokemonOverviewCardHTML(currentPokemon['id'],currentPokemon['name'],image);
   await loadPokemonSpeciesColor(currentPokemon,'pokedexOverviewCard');
